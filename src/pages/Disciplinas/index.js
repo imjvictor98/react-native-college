@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, FlatList, Text, ActivityIndicator } from 'react-native';
 import DropDownItem from 'react-native-drop-down-item';
 import { ListItem, SearchBar } from 'react-native-elements';
-import { Header, Left, Icon, Body, Title, Right } from 'native-base';
+import { Header, Left, Icon, Body, Title, Right, Input } from 'native-base';
 import ScrollViewFS from '../../components/ScrollViewFullScreen';
 import api from '../../config/api';
 
@@ -109,8 +109,8 @@ export default class Disciplinas extends Component {
     const { isAluno, isProfessor, resultado, loading } = this.state;
 
     return (
-      <View>
-        <Header>
+      <View style={{ backgroundColor: '#e6ebef' }}>
+        <Header style={{ backgroundColor: '#e6ebef' }}>
           <Left>
             <Icon
               name="ios-arrow-back"
@@ -125,7 +125,9 @@ export default class Disciplinas extends Component {
             />
           </Left>
           <Body>
-            <Title>{isAluno ? `Disciplinas` : 'Professor'}</Title>
+            <Title style={{ color: '#1f2e2e' }}>
+              {isAluno ? `Disciplinas` : 'Professor'}
+            </Title>
           </Body>
           <Right />
         </Header>

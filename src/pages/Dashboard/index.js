@@ -5,8 +5,7 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
-import { Icon, Left, Right, Text } from 'native-base';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { Icon, Left, Right, Text, Body, Title } from 'native-base';
 import {
   DashboardHeader,
   Container,
@@ -26,7 +25,6 @@ import {
   BoxCodigo,
   BoxTelefone,
 } from './styles';
-
 import api from '../../config/api';
 
 export default class Dashboard extends Component {
@@ -36,7 +34,9 @@ export default class Dashboard extends Component {
       codigo: '',
       nome: '',
       telefone: '',
-      foto: {},
+      foto: {
+        file_url: '',
+      },
       email: '',
       isAluno: false,
       isProfessor: false,
@@ -44,12 +44,20 @@ export default class Dashboard extends Component {
     };
   }
 
-  async componentDidMount() {
-    const { navigation } = this.props;
-    let response = null;
-    const { isProfessor, isAluno } = this.state;
+  componentDidMount() {
+    this.loadProfile();
+  }
 
-    console.tron.log('DASHBOARD', navigation);
+  // componentDidUpdate(_, prevState) {
+  //   if (this.state !== prevState) {
+
+  //   }
+  // }
+
+  loadProfile = async () => {
+    const { navigation } = this.props;
+    let response;
+    const { isProfessor, isAluno } = this.state;
 
     if (isProfessor === false && isAluno === false) {
       if (navigation.state.params.user.isAluno) {
@@ -67,15 +75,28 @@ export default class Dashboard extends Component {
       }
     }
 
+    if (
+      response.data.foto === null ||
+      !response.data.foto ||
+      response.data === undefined
+    ) {
+      const { foto } = this.state;
+      const novoObjeto = foto;
+      novoObjeto.file_url =
+        'http://localhost:3333/files/4cb8c221aa1d2df5620d97dc98a49dec.png';
+      this.setState({ foto: novoObjeto });
+    } else {
+      this.setState({ foto: response.data.foto });
+    }
+
     this.setState({
-      codigo: response.data.cod_aluno,
+      codigo: response.data.cod_aluno || response.data.cod_professor,
       nome: response.data.nome,
       telefone: response.data.telefone,
-      foto: response.data.foto,
       email: response.data.email,
       loading: false,
     });
-  }
+  };
 
   render() {
     const { navigation } = this.props;
@@ -104,6 +125,9 @@ export default class Dashboard extends Component {
               <Left>
                 <LeftIcon onPress={() => navigation.openDrawer()} />
               </Left>
+              <Body>
+                <Title style={{ color: '#e6ebef' }}>AVA FIRST</Title>
+              </Body>
               <Right>
                 <RightIcon onPress={() => navigation.navigate('Sign')} />
               </Right>
@@ -117,6 +141,7 @@ export default class Dashboard extends Component {
                 }}
               >
                 <ProfilePhoto source={{ uri: foto.file_url }} />
+
                 <TextName>Bem-vindo, {nome}</TextName>
               </View>
 
@@ -226,7 +251,7 @@ export default class Dashboard extends Component {
                   <OptionContent>
                     <BlockContent>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate('Semestre')}
+                        onPress={() => navigation.navigate('Notas')}
                       >
                         <View style={{ display: 'flex' }}>
                           <Icon
@@ -245,22 +270,7 @@ export default class Dashboard extends Component {
                         </View>
                       </TouchableOpacity>
                     </BlockContent>
-                    <BlockContent>
-                      <TouchableOpacity>
-                        <Icon
-                          name="md-bookmarks"
-                          style={{ marginLeft: 25, color: '#9b9c9e' }}
-                        />
-                        <Text
-                          style={{
-                            color: '#3f444d',
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          Disciplinas
-                        </Text>
-                      </TouchableOpacity>
-                    </BlockContent>
+
                     <BlockContent>
                       <TouchableOpacity
                         onPress={() =>

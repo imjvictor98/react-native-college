@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Section, Block } from 'react-native-responsive-layout';
 import { KeyboardAvoidingView, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import { showMessage } from 'react-native-flash-message';
 import api from '../../config/api';
 
 import {
@@ -27,7 +28,7 @@ export default class Signup extends Component {
         senha: '',
         endereco: {
           estado: '',
-          cidade: '',
+          cidade: 'Maceió',
         },
       },
       codigo: '',
@@ -68,11 +69,17 @@ export default class Signup extends Component {
 
       this.setState({ usuario: object });
 
+      console.tron.log('Sign up: ', response.data);
       this.handleNavigate();
     } catch (response) {
       if (response.data.error) throw response.data.error;
     }
-    Alert.alert(this.state.resMessage);
+    showMessage({
+      message: `${this.state.resMessage}`,
+      type: 'success',
+      hideOnPress: true,
+      duration: 5000,
+    });
   };
 
   handleNavigate = login => {

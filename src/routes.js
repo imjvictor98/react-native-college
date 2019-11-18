@@ -10,6 +10,9 @@ import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
 import Semestre from './pages/Semestre';
 import Disciplinas from './pages/Disciplinas';
+import Notas from './pages/Notas';
+import ForgotPwd from './pages/ForgotPwd';
+import Welcome from './pages/Welcome';
 import { presetSignConfig } from './navigationConfig/SignConfig';
 import { presetAppConfig } from './navigationConfig/AppConfig';
 import { CustomDrawerComponent } from './pages/Drawer/index';
@@ -25,6 +28,7 @@ const App = createDrawerNavigator(
   {
     Dashboard,
     Settings,
+    Welcome,
   },
   {
     contentComponent: CustomDrawerComponent,
@@ -70,6 +74,20 @@ const DisciplinaNavigator = createSwitchNavigator(
   }
 );
 
+const NotasNavigator = createSwitchNavigator(
+  {
+    Notas,
+  },
+  {
+    headerBackTitleVisible: true,
+    defaultNavigationOptions: {
+      title: 'Lançar notas',
+      disableKeyboardHandling: false,
+    },
+    headerLayoutPreset: 'center',
+    initialRouteName: 'Notas',
+  }
+);
 const ProfileNavigator = createSwitchNavigator(
   {
     Settings,
@@ -81,6 +99,21 @@ const ProfileNavigator = createSwitchNavigator(
   }
 );
 
+const ForgotPwdNavigator = createSwitchNavigator(
+  {
+    ForgotPwd,
+  },
+  {
+    headerBackTitleVisible: true,
+    defaultNavigationOptions: {
+      title: 'Recuperar senha',
+      disableKeyboardHandling: false,
+    },
+    headerLayoutPreset: 'center',
+    initialRouteName: 'ForgotPwd',
+  }
+);
+
 const Routes = createAppContainer(
   createSwitchNavigator(
     {
@@ -89,6 +122,8 @@ const Routes = createAppContainer(
       SemestreNavigator,
       DisciplinaNavigator,
       ProfileNavigator,
+      NotasNavigator,
+      ForgotPwdNavigator,
     },
     {
       initialRouteName: 'Sign',

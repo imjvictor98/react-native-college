@@ -34,11 +34,13 @@ export const TextDataContent = styled.View`
   justify-content: flex-start;
   margin-left: 10;
   margin-right: 10;
+  margin-bottom: 50;
 `;
 
 export const LabelProfile = styled.Text`
   color: #3f444d;
   font-size: 15px;
+  margin-left: 10px;
 `;
 
 export const SubmitButton = styled(Button).attrs({
